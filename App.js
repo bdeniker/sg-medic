@@ -1,16 +1,13 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
-
 import React from 'react';
-import {Alert, SafeAreaView, StyleSheet, View} from 'react-native';
+import {SafeAreaView, StyleSheet} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
-import BigButton from './components/BigButton';
+import Injury from './screens/injury';
+import Diagnose from './screens/diagnose';
+
+const Tab = createBottomTabNavigator();
 
 const App = () => {
   // const isDarkMode = useColorScheme() === 'dark';
@@ -19,18 +16,14 @@ const App = () => {
   // };
 
   return (
-    <SafeAreaView style={styles.homepage}>
-      <View style={styles.homeView}>
-        <BigButton
-          title="Take wound"
-          onPress={() => Alert.alert('Simple Button pressed')}
-        />
-        <BigButton
-          title="Diagnose wound"
-          onPress={() => Alert.alert('Simple Button pressed')}
-        />
-      </View>
-    </SafeAreaView>
+    <NavigationContainer>
+      <SafeAreaView style={styles.homepage}>
+        <Tab.Navigator>
+          <Tab.Screen name="Injury" component={Injury} />
+          <Tab.Screen name="Diagnose" component={Diagnose} />
+        </Tab.Navigator>
+      </SafeAreaView>
+    </NavigationContainer>
   );
 };
 
