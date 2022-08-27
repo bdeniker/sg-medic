@@ -1,10 +1,10 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Text} from 'react-native';
+import {StyleSheet, Pressable, Text} from 'react-native';
 
 const BigButton = ({onPress, title}) => (
-  <TouchableOpacity onPress={onPress} style={styles.appButtonContainer}>
+  <Pressable onPress={onPress} style={styles.appButtonContainer}>
     <Text style={styles.appButtonText}>{title}</Text>
-  </TouchableOpacity>
+  </Pressable>
 );
 
 const styles = StyleSheet.create({
