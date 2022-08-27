@@ -5,8 +5,8 @@ import BigButton from '../../components/BigButton';
 const Injury = () => (
   <View style={styles.homeView}>
     <BigButton
-      title="Take wound"
-      onPress={() => Alert.alert('Simple Button pressed')}
+      title="Scan wound card"
+      onPress={() => Alert.alert('To do: NFC stuff <_<')}
     />
   </View>
 );
