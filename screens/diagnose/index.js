@@ -23,12 +23,25 @@ function Diagnose() {
   const [surgeries, setSurgeries] = useState(0);
 
   function openDropdown(idToOpen, isOpen) {
-    setProblems(
-      problems.map(problem =>
-        problem.id === idToOpen ? {...problem, open: isOpen} : problem,
-      ),
-    );
-    console.log(JSON.stringify(problems));
+    console.log(`before\n${JSON.stringify(problems)}`);
+    if (isOpen) {
+      // if opening, close others
+      setProblems(
+        problems.map(problem =>
+          problem.id === idToOpen
+            ? {...problem, open: isOpen}
+            : {...problem, open: false},
+        ),
+      );
+    } else {
+      // otherwise leave as is
+      setProblems(
+        problems.map(problem =>
+          problem.id === idToOpen ? {...problem, open: isOpen} : problem,
+        ),
+      );
+    }
+    console.log(`after\n${JSON.stringify(problems)}`);
   }
   function updateProblem(idToReplace, newProblem) {
     setProblems(
