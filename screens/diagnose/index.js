@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import uuid from 'react-native-uuid';
-import DropDownPicker from 'react-native-dropdown-picker';
+import RNPickerSelect from 'react-native-picker-select';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
@@ -22,31 +22,12 @@ function Diagnose() {
   const [problems, setProblems] = useState([]);
   const [surgeries, setSurgeries] = useState(0);
 
-  function openDropdown(idToOpen, isOpen) {
-    console.log(`before\n${JSON.stringify(problems)}`);
-    if (isOpen) {
-      // if opening, close others
-      setProblems(
-        problems.map(problem =>
-          problem.id === idToOpen
-            ? {...problem, open: isOpen}
-            : {...problem, open: false},
-        ),
-      );
-    } else {
-      // otherwise leave as is
-      setProblems(
-        problems.map(problem =>
-          problem.id === idToOpen ? {...problem, open: isOpen} : problem,
-        ),
-      );
-    }
-    console.log(`after\n${JSON.stringify(problems)}`);
-  }
-  function updateProblem(idToReplace, newProblem) {
+  function updateProblem(keyToReplace, newProblem) {
     setProblems(
       problems.map(problem =>
-        problem.id === idToReplace ? {...problem, value: newProblem} : problem,
+        problem.key === keyToReplace
+          ? {...problem, value: newProblem}
+          : problem,
       ),
     );
   }
@@ -63,14 +44,10 @@ function Diagnose() {
             }),
           },
         ]}>
-        <DropDownPicker
-          key={`dropdown-${item.id}`}
-          open={item.open}
-          value={item.value}
+        <RNPickerSelect
+          onValueChange={value => updateProblem(item.key, value)}
           items={problemNames}
-          setOpen={isOpen => openDropdown(item.id, isOpen)}
-          setValue={newProblem => updateProblem(item.id, newProblem)}
-          searchable={true}
+          style={selectStyles}
         />
       </Animated.View>
     );
@@ -84,10 +61,7 @@ function Diagnose() {
         toValue: 0,
         duration: 200,
       }).start(() => {
-        const newData = [...problems];
-        const prevIndex = problems.findIndex(item => item.key === key);
-        newData.splice(prevIndex, 1);
-        setProblems(newData);
+        setProblems(problems.filter(problem => problem.id !== key));
         this.animationIsRunning = false;
       });
     }
@@ -113,16 +87,13 @@ function Diagnose() {
           title="Add Problem"
           onPress={() => {
             let newId = uuid.v4();
-            setProblems([
-              ...problems,
-              {value: null, open: false, id: newId, key: newId},
-            ]);
+            setProblems([...problems, {value: null, key: newId}]);
             rowTranslateAnimatedValues[newId] = new Animated.Value(1);
           }}
         />
         <BigButton
           title="Add wound card"
-          onPress={() => console.log(problems)}
+          onPress={() => console.log(problemNames)}
         />
       </Row>
       <Text>Previous surgeries: {surgeries}</Text>
@@ -134,7 +105,10 @@ function Diagnose() {
       />
       <BigButton
         title={`Start ${problems.length} card problem`}
-        onPress={() => Alert.alert('To do: actual function 🤷')}
+        onPress={() =>
+          // Alert.alert('To do: actual function 🤷')
+          console.log(JSON.stringify(problems))
+        }
         disabled={problems.length < 1} // Y U no work?!
       />
     </View>
@@ -142,6 +116,14 @@ function Diagnose() {
 }
 
 const styles = StyleSheet.create({
+  dropdown: {
+    elevation: 8,
+    backgroundColor: '#009688',
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    margin: 5,
+  },
   homeView: {
     margin: 10,
   },
@@ -174,6 +156,29 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0,
+  },
+});
+const selectStyles = StyleSheet.create({
+  inputIOS: {
+    fontSize: 16,
+    paddingVertical: 12,
+    paddingHorizontal: 10,
+    borderWidth: 1,
+    borderColor: 'gray',
+    backgroundColor: '#F2F2F2',
+    borderRadius: 4,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
+  },
+  inputAndroid: {
+    fontSize: 16,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 0.5,
+    borderColor: 'purple',
+    borderRadius: 8,
+    color: 'black',
+    paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
 
