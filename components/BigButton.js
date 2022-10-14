@@ -1,8 +1,11 @@
 import React from 'react';
 import {StyleSheet, Pressable, Text} from 'react-native';
 
-const BigButton = ({onPress, title}) => (
-  <Pressable onPress={onPress} style={styles.appButtonContainer}>
+const BigButton = ({onPress, title, disabled}) => (
+  <Pressable
+    onPress={onPress}
+    style={styles.appButtonContainer}
+    disabled={disabled}>
     <Text style={styles.appButtonText}>{title}</Text>
   </Pressable>
 );

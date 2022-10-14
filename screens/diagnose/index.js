@@ -1,12 +1,5 @@
 import React, {useState} from 'react';
-import {
-  Alert,
-  Animated,
-  Dimensions,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import {Animated, Dimensions, StyleSheet, Text, View} from 'react-native';
 import {Slider} from '@miblanchard/react-native-slider';
 import uuid from 'react-native-uuid';
 import RNPickerSelect from 'react-native-picker-select';
@@ -53,15 +46,14 @@ function Diagnose() {
     );
   }
 
-  const onSwipeValueChange = swipeData => {
-    const {key, value} = swipeData;
+  const onSwipeValueChange = ({key, value}) => {
     if (value < -Dimensions.get('window').width && !this.animationIsRunning) {
       this.animationIsRunning = true;
       Animated.timing(rowTranslateAnimatedValues[key], {
         toValue: 0,
         duration: 200,
       }).start(() => {
-        setProblems(problems.filter(problem => problem.id !== key));
+        setProblems(problems.filter(problem => problem.key !== key));
         this.animationIsRunning = false;
       });
     }
@@ -106,10 +98,10 @@ function Diagnose() {
       <BigButton
         title={`Start ${problems.length} card problem`}
         onPress={() =>
-          // Alert.alert('To do: actual function 🤷')
+          // Alert.alert('TODO actual function 🤷')
           console.log(JSON.stringify(problems))
         }
-        disabled={problems.length < 1} // Y U no work?!
+        disabled={problems.length < 1} // TODO add disabled styling
       />
     </View>
   );
