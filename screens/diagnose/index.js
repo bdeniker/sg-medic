@@ -7,6 +7,7 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
 import problemJSON from '../../resources/problems.json';
+import AddWoundCard from './AddWoundCard';
 
 const rowTranslateAnimatedValues = {};
 
@@ -83,10 +84,7 @@ function Diagnose() {
             rowTranslateAnimatedValues[newId] = new Animated.Value(1);
           }}
         />
-        <BigButton
-          title="Add wound card"
-          onPress={() => console.log(problemNames)}
-        />
+        <AddWoundCard />
       </Row>
       <Text>Previous surgeries: {surgeries}</Text>
       <Slider

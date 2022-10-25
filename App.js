@@ -1,12 +1,15 @@
 import React from 'react';
-import {SafeAreaView, StyleSheet} from 'react-native';
+import {AppRegistry, SafeAreaView, StyleSheet} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import NfcManager from 'react-native-nfc-manager';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Injury from './screens/injury';
 import Diagnose from './screens/diagnose';
 
+AppRegistry.registerComponent('NfcManagerDev', () => App);
+NfcManager.start().catch(error => console.error('Ohno, NFC failed\n' + error));
 const Tab = createBottomTabNavigator();
 
 const App = () => {
