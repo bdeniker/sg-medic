@@ -7,7 +7,8 @@ import uuid from 'react-native-uuid';
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
 import problemJSON from '../../resources/problems.json';
-import AddWoundCard from './AddWoundCard';
+import getWoundCardID from '../../util/readNFC';
+import getProblemsForWoundCard from '../../util/problemsForWound';
 
 const rowTranslateAnimatedValues = {};
 
@@ -15,6 +16,15 @@ function Diagnose() {
   const [problemNames] = useState(problemJSON.map(p => ({label: p, value: p})));
   const [problems, setProblems] = useState([]);
   const [surgeries, setSurgeries] = useState(0);
+
+  function addProblems(problemsToAdd = []) {
+    const addToState = problemsToAdd.map(problemToAdd => {
+      const newId = uuid.v4();
+      rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+      return {value: problemToAdd, key: newId};
+    });
+    setProblems([...problems, ...addToState]);
+  }
 
   function updateProblem(keyToReplace, newProblem) {
     setProblems(
@@ -42,6 +52,7 @@ function Diagnose() {
           onValueChange={value => updateProblem(item.key, value)}
           items={problemNames}
           style={selectStyles}
+          value={item.value}
         />
       </Animated.View>
     );
@@ -79,12 +90,19 @@ function Diagnose() {
         <BigButton
           title="Add Problem"
           onPress={() => {
-            let newId = uuid.v4();
-            setProblems([...problems, {value: null, key: newId}]);
+            const newId = uuid.v4();
             rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+            setProblems([...problems, {value: null, key: newId}]);
           }}
         />
-        <AddWoundCard />
+        <BigButton
+          title="Add wound card"
+          onPress={() =>
+            getWoundCardID().then(id =>
+              addProblems(getProblemsForWoundCard(id)),
+            )
+          }
+        />
       </Row>
       <Text style={styles.textBack}>Previous surgeries: {surgeries}</Text>
       <Slider
