@@ -1,12 +1,17 @@
 import React from 'react';
 import {Alert, StyleSheet, View} from 'react-native';
 import BigButton from '../../components/BigButton';
+import getWoundCardID from '../../util/readNFC';
 
 const Injury = () => (
   <View style={styles.homeView}>
     <BigButton
       title="Scan wound card"
-      onPress={() => Alert.alert('To do: NFC stuff <_<')}
+      onPress={() =>
+        getWoundCardID().then(id =>
+          Alert.alert(`You have the symptoms of wound card #${id}`),
+        )
+      }
     />
   </View>
 );

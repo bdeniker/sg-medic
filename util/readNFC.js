@@ -1,8 +1,7 @@
 import NfcManager, {Ndef, NfcTech} from 'react-native-nfc-manager';
 
 const onTagDiscovered = tag => {
-  console.log('Tag Discovered', tag);
-  // this.setState({tag});
+  // console.log('Tag Discovered', tag);
 
   let parsed = null;
   if (tag.ndefMessage && tag.ndefMessage.length > 0) {
