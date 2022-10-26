@@ -1,9 +1,9 @@
+import {Slider} from '@miblanchard/react-native-slider';
 import React, {useState} from 'react';
 import {Animated, Dimensions, StyleSheet, Text, View} from 'react-native';
-import {Slider} from '@miblanchard/react-native-slider';
-import uuid from 'react-native-uuid';
 import RNPickerSelect from 'react-native-picker-select';
 import {SwipeListView} from 'react-native-swipe-list-view';
+import uuid from 'react-native-uuid';
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
 import problemJSON from '../../resources/problems.json';
@@ -86,7 +86,7 @@ function Diagnose() {
         />
         <AddWoundCard />
       </Row>
-      <Text>Previous surgeries: {surgeries}</Text>
+      <Text style={styles.textBack}>Previous surgeries: {surgeries}</Text>
       <Slider
         value={surgeries}
         maximumValue={10}
@@ -121,9 +121,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
-  backTextWhite: {
-    color: '#FFF',
-  },
+  // backTextWhite: {
+  //   color: '#aaa',
+  // },
   rowBack: {
     alignItems: 'center',
     flex: 1,
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
   },
   textBack: {
-    // color: 'red',
+    color: 'grey',
     fontWeight: 'bold',
   },
   backRightBtn: {
