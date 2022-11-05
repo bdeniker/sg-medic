@@ -1,14 +1,24 @@
 import {Slider} from '@miblanchard/react-native-slider';
 import React, {useState} from 'react';
-import {Animated, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+  Modal,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
+import NfcManager from 'react-native-nfc-manager';
 import RNPickerSelect from 'react-native-picker-select';
 import {SwipeListView} from 'react-native-swipe-list-view';
 import uuid from 'react-native-uuid';
+
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
 import problemJSON from '../../resources/problems.json';
-import getWoundCardID from '../../util/readNFC';
 import getProblemsForWoundCard from '../../util/problemsForWound';
+import getWoundCardID from '../../util/readNFC';
 
 const rowTranslateAnimatedValues = {};
 
@@ -16,6 +26,7 @@ function Diagnose() {
   const [problemNames] = useState(problemJSON.map(p => ({label: p, value: p})));
   const [problems, setProblems] = useState([]);
   const [surgeries, setSurgeries] = useState(0);
+  const [nfcScanning, setNFCScanning] = useState(false);
 
   function addProblems(problemsToAdd = []) {
     const addToState = problemsToAdd.map(problemToAdd => {
@@ -73,6 +84,21 @@ function Diagnose() {
 
   return (
     <View style={styles.homeView}>
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={nfcScanning}
+        onRequestClose={() => {
+          NfcManager.cancelTechnologyRequest();
+          setNFCScanning(false);
+        }}>
+        <View style={styles.centeredView}>
+          <View style={styles.modalView}>
+            <ActivityIndicator />
+            <Text style={styles.modalText}>Scan an NFC tag</Text>
+          </View>
+        </View>
+      </Modal>
       <SwipeListView
         disableRightSwipe
         data={problems}
@@ -97,11 +123,14 @@ function Diagnose() {
         />
         <BigButton
           title="Add wound card"
-          onPress={() =>
-            getWoundCardID().then(id =>
-              addProblems(getProblemsForWoundCard(id)),
-            )
-          }
+          disabled={nfcScanning}
+          onPress={() => {
+            setNFCScanning(true);
+            getWoundCardID().then(id => {
+              addProblems(getProblemsForWoundCard(id));
+              setNFCScanning(false);
+            });
+          }}
         />
       </Row>
       <Text style={styles.textBack}>Previous surgeries: {surgeries}</Text>
@@ -164,6 +193,32 @@ const styles = StyleSheet.create({
   backRightBtnRight: {
     backgroundColor: 'red',
     right: 0,
+  },
+  centeredView: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 22,
+  },
+  modalView: {
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  modalText: {
+    marginBottom: 15,
+    textAlign: 'center',
+    color: 'black',
   },
 });
 const selectStyles = StyleSheet.create({
