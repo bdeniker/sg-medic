@@ -2,17 +2,17 @@ import addComplications, {randompop} from './addComplications';
 import complications from '../resources/complications.json';
 
 describe('randompop', () => {
+  const base = [1, 2, 3, 4];
   test('removes an element from the original array', () => {
-    const testArray = [1, 2, 3, 4];
+    const testArray = [...base];
     randompop(testArray);
     expect(testArray.length).toBe(3);
   });
 
   test('returns the removed element', () => {
-    const testArray = [1, 2, 3, 4];
-    const arrayCopy = testArray.filter(() => true);
+    const testArray = [...base];
     const popped = randompop(testArray);
-    expect(arrayCopy).toContain(popped);
+    expect(base).toContain(popped);
     expect(testArray).not.toContain(popped);
   });
 });
@@ -51,4 +51,10 @@ describe('addComplications', () => {
       expect(numberOfComplications).toBeLessThanOrEqual(complicationCount);
     },
   );
+
+  test('zero hand 5 surgeries', () => {
+    const processedProblem = addComplications([], 5);
+
+    expect(processedProblem.length).toBe(1);
+  });
 });

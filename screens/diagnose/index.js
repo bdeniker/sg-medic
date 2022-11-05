@@ -1,5 +1,5 @@
 import {Slider} from '@miblanchard/react-native-slider';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -18,6 +18,7 @@ import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
 import problemJSON from '../../resources/problems.json';
 import getProblemsForWoundCard from '../../util/problemsForWound';
+import addComplications from '../../util/addComplications';
 import getWoundCardID from '../../util/readNFC';
 
 const rowTranslateAnimatedValues = {};
@@ -25,6 +26,7 @@ const rowTranslateAnimatedValues = {};
 function Diagnose() {
   const [problemNames] = useState(problemJSON.map(p => ({label: p, value: p})));
   const [problems, setProblems] = useState([]);
+  const [complicatedProblems, setComplicatedProblems] = useState([]);
   const [surgeries, setSurgeries] = useState(0);
   const [nfcScanning, setNFCScanning] = useState(false);
 
@@ -82,6 +84,13 @@ function Diagnose() {
     }
   };
 
+  useEffect(() => {
+    addComplications(
+      problems.map(pr => pr.value),
+      surgeries,
+    );
+  }, [problems, surgeries]);
+
   return (
     <View style={styles.homeView}>
       <Modal
@@ -138,15 +147,12 @@ function Diagnose() {
         value={surgeries}
         maximumValue={10}
         step={1}
-        onValueChange={value => setSurgeries(value)}
+        onValueChange={value => setSurgeries(+value)}
       />
       <BigButton
-        title={`Start ${problems.length} card problem`}
-        onPress={() =>
-          // Alert.alert('TODO actual function 🤷')
-          console.log(JSON.stringify(problems))
-        }
-        disabled={problems.length < 1} // TODO add disabled styling
+        title={`Start ${complicatedProblems.length} card problem`}
+        onPress={() => console.log(`${JSON.stringify(complicatedProblems)}`)}
+        disabled={problems.length < 1}
       />
     </View>
   );

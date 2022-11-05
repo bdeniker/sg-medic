@@ -58,5 +58,5 @@ export default function addComplications(problems, surgeries) {
 }
 
 export function randompop(somearray) {
-  return somearray.pop(Math.floor(Math.random() * somearray.length));
+  return somearray.splice(Math.floor(Math.random() * somearray.length), 1)[0];
 }
