@@ -8,7 +8,6 @@ const InjuryDetails = ({wound}) => {
   if (wound === undefined || wound === null) {
     return <View />;
   }
-  console.log(wound);
   const bc = wound.isRed ? 'red' : 'yellow';
   return (
     <View style={{...styles.injury, borderColor: bc}}>

@@ -17,8 +17,8 @@ import uuid from 'react-native-uuid';
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
 import problemJSON from '../../resources/problems.json';
-import getProblemsForWoundCard from '../../util/problemsForWound';
 import addComplications from '../../util/addComplications';
+import getProblemsForWoundCard from '../../util/problemsForWound';
 import getWoundCardID from '../../util/readNFC';
 
 const rowTranslateAnimatedValues = {};
