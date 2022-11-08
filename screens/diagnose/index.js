@@ -16,6 +16,7 @@ import uuid from 'react-native-uuid';
 
 import BigButton from '../../components/BigButton';
 import Row from '../../components/Row';
+import complicationJSON from '../../resources/complications.json';
 import problemJSON from '../../resources/problems.json';
 import addComplications from '../../util/addComplications';
 import getProblemsForWoundCard from '../../util/problemsForWound';
@@ -25,7 +26,12 @@ const rowTranslateAnimatedValues = {};
 
 function Diagnose() {
   const [problemNames] = useState(problemJSON.map(p => ({label: p, value: p})));
+  const [complicationNames] = useState([
+    {label: 'Random complication', value: 'random'},
+    ...complicationJSON.map(c => ({label: c, value: c})),
+  ]);
   const [problems, setProblems] = useState([]);
+  const [complications, setComplications] = useState([]);
   const [complicatedProblems, setComplicatedProblems] = useState([]);
   const [surgeries, setSurgeries] = useState(0);
   const [nfcScanning, setNFCScanning] = useState(false);
@@ -49,40 +55,71 @@ function Diagnose() {
     );
   }
 
-  function renderItem({item}) {
-    return (
-      <Animated.View
-        style={[
-          styles.rowFrontContainer,
-          {
-            height: rowTranslateAnimatedValues[item.key].interpolate({
-              inputRange: [0, 1],
-              outputRange: [0, 50],
-            }),
-          },
-        ]}>
-        <RNPickerSelect
-          onValueChange={value => updateProblem(item.key, value)}
-          items={problemNames}
-          style={selectStyles}
-          value={item.value}
-        />
-      </Animated.View>
+  function updateComplication(keyToReplace, newComplication) {
+    setComplications(
+      complications.map(compl =>
+        compl.key === keyToReplace ? {...compl, value: newComplication} : compl,
+      ),
     );
   }
 
-  const onSwipeValueChange = ({key, value}) => {
-    if (value < -Dimensions.get('window').width && !this.animationIsRunning) {
-      this.animationIsRunning = true;
-      Animated.timing(rowTranslateAnimatedValues[key], {
-        toValue: 0,
-        duration: 200,
-      }).start(() => {
-        setProblems(problems.filter(problem => problem.key !== key));
-        this.animationIsRunning = false;
-      });
-    }
-  };
+  const renderItem =
+    isComplication =>
+    ({item}) => {
+      let entry;
+      if (isComplication) {
+        entry = (
+          <RNPickerSelect
+            onValueChange={value => updateComplication(item.key, value)}
+            items={complicationNames}
+            style={selectStyles}
+            value={item.value}
+          />
+        );
+      } else {
+        entry = (
+          <RNPickerSelect
+            onValueChange={value => updateProblem(item.key, value)}
+            items={problemNames}
+            style={selectStyles}
+            value={item.value}
+          />
+        );
+      }
+      return (
+        <Animated.View
+          style={[
+            styles.rowFrontContainer,
+            {
+              height: rowTranslateAnimatedValues[item.key].interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 50],
+              }),
+            },
+          ]}>
+          {entry}
+        </Animated.View>
+      );
+    };
+
+  const onSwipeValueChange =
+    isComplication =>
+    ({key, value}) => {
+      if (value < -Dimensions.get('window').width && !this.animationIsRunning) {
+        this.animationIsRunning = true;
+        Animated.timing(rowTranslateAnimatedValues[key], {
+          toValue: 0,
+          duration: 200,
+        }).start(() => {
+          if (isComplication) {
+            setComplications(complications.filter(compl => compl.key !== key));
+          } else {
+            setProblems(problems.filter(problem => problem.key !== key));
+          }
+          this.animationIsRunning = false;
+        });
+      }
+    };
 
   useEffect(() => {
     setComplicatedProblems(
@@ -113,19 +150,32 @@ function Diagnose() {
       <SwipeListView
         disableRightSwipe
         data={problems}
-        renderItem={renderItem}
+        renderItem={renderItem(false)}
         renderHiddenItem={() => (
           <View style={styles.rowBack}>
             <Text style={styles.textBack}>⬅️ Swipe to Delete</Text>
           </View>
         )}
         rightOpenValue={-Dimensions.get('window').width}
-        onSwipeValueChange={onSwipeValueChange}
+        onSwipeValueChange={onSwipeValueChange(false)}
+        useNativeDriver={false}
+      />
+      <SwipeListView
+        disableRightSwipe
+        data={complications}
+        renderItem={renderItem(true)}
+        renderHiddenItem={() => (
+          <View style={styles.rowBack}>
+            <Text style={styles.textBack}>⬅️ Swipe to Delete</Text>
+          </View>
+        )}
+        rightOpenValue={-Dimensions.get('window').width}
+        onSwipeValueChange={onSwipeValueChange(true)}
         useNativeDriver={false}
       />
       <Row>
         <BigButton
-          title="Add Problem"
+          title="+ Problem"
           onPress={() => {
             const newId = uuid.v4();
             rowTranslateAnimatedValues[newId] = new Animated.Value(1);
@@ -133,7 +183,7 @@ function Diagnose() {
           }}
         />
         <BigButton
-          title="Add wound card"
+          title="Scan wound card"
           disabled={nfcScanning}
           onPress={() => {
             setNFCScanning(true);
@@ -141,6 +191,14 @@ function Diagnose() {
               addProblems(getProblemsForWoundCard(id));
               setNFCScanning(false);
             });
+          }}
+        />
+        <BigButton
+          title="+ Complication"
+          onPress={() => {
+            const newId = uuid.v4();
+            rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+            setComplications([...complications, {value: 'random', key: newId}]);
           }}
         />
       </Row>
