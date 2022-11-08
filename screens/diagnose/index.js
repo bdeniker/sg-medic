@@ -125,10 +125,11 @@ function Diagnose() {
     setComplicatedProblems(
       addComplications(
         problems.map(pr => pr.value),
+        complications,
         surgeries,
       ),
     );
-  }, [problems, surgeries]);
+  }, [problems, complications, surgeries]);
 
   return (
     <View style={styles.homeView}>
