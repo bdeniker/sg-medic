@@ -85,9 +85,11 @@ function Diagnose() {
   };
 
   useEffect(() => {
-    addComplications(
-      problems.map(pr => pr.value),
-      surgeries,
+    setComplicatedProblems(
+      addComplications(
+        problems.map(pr => pr.value),
+        surgeries,
+      ),
     );
   }, [problems, surgeries]);
 
