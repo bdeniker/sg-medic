@@ -19,7 +19,7 @@ import Row from '../../components/Row';
 import complicationJSON from '../../resources/complications.json';
 import problemJSON from '../../resources/problems.json';
 import addComplications from '../../util/addComplications';
-import getProblemsForWoundCard from '../../util/problemsForWound';
+import getDiagnosisForWound from '../../util/diagnosisForWound';
 import getWoundCardID from '../../util/readNFC';
 
 const rowTranslateAnimatedValues = {};
@@ -32,6 +32,7 @@ function Diagnose() {
   ]);
   const [problems, setProblems] = useState([]);
   const [complications, setComplications] = useState([]);
+  const [diagnosis, setDiagnosis] = useState(null);
   const [complicatedProblems, setComplicatedProblems] = useState([]);
   const [surgeries, setSurgeries] = useState(0);
   const [nfcScanning, setNFCScanning] = useState(false);
@@ -189,7 +190,12 @@ function Diagnose() {
           onPress={() => {
             setNFCScanning(true);
             getWoundCardID().then(id => {
-              addProblems(getProblemsForWoundCard(id));
+              let diagTemp = getDiagnosisForWound(id);
+              setDiagnosis(diagTemp);
+              console.log(`Diagnosis: ${JSON.stringify(diagTemp)}`);
+              if (diagTemp !== null) {
+                addProblems(diagTemp.cards);
+              }
               setNFCScanning(false);
             });
           }}
