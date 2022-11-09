@@ -5,6 +5,7 @@ import {
   Animated,
   Dimensions,
   Modal,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -21,6 +22,7 @@ import problemJSON from '../../resources/problems.json';
 import addComplications from '../../util/addComplications';
 import getDiagnosisForWound from '../../util/diagnosisForWound';
 import getWoundCardID from '../../util/readNFC';
+import DiagnosisDetails from './diagnosisDetails';
 
 const rowTranslateAnimatedValues = {};
 
@@ -133,95 +135,106 @@ function Diagnose() {
   }, [problems, complications, surgeries]);
 
   return (
-    <View style={styles.homeView}>
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={nfcScanning}
-        onRequestClose={() => {
-          NfcManager.cancelTechnologyRequest();
-          setNFCScanning(false);
-        }}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalView}>
-            <ActivityIndicator />
-            <Text style={styles.modalText}>Scan an NFC tag</Text>
+    <ScrollView style={styles.homeView}>
+      <View>
+        <Modal
+          animationType="slide"
+          transparent={true}
+          visible={nfcScanning}
+          onRequestClose={() => {
+            NfcManager.cancelTechnologyRequest();
+            setNFCScanning(false);
+          }}>
+          <View style={styles.centeredView}>
+            <View style={styles.modalView}>
+              <ActivityIndicator />
+              <Text style={styles.modalText}>Scan an NFC tag</Text>
+            </View>
           </View>
-        </View>
-      </Modal>
-      <SwipeListView
-        disableRightSwipe
-        data={problems}
-        renderItem={renderItem(false)}
-        renderHiddenItem={() => (
-          <View style={styles.rowBack}>
-            <Text style={styles.textBack}>⬅️ Swipe to Delete</Text>
-          </View>
+        </Modal>
+        <SwipeListView
+          disableRightSwipe
+          data={problems}
+          renderItem={renderItem(false)}
+          renderHiddenItem={() => (
+            <View style={styles.rowBack}>
+              <Text style={styles.textBack}>⬅️ Swipe to Delete</Text>
+            </View>
+          )}
+          rightOpenValue={-Dimensions.get('window').width}
+          onSwipeValueChange={onSwipeValueChange(false)}
+          useNativeDriver={false}
+        />
+        <SwipeListView
+          disableRightSwipe
+          data={complications}
+          renderItem={renderItem(true)}
+          renderHiddenItem={() => (
+            <View style={styles.rowBack}>
+              <Text style={styles.textBack}>⬅️ Swipe to Delete</Text>
+            </View>
+          )}
+          rightOpenValue={-Dimensions.get('window').width}
+          onSwipeValueChange={onSwipeValueChange(true)}
+          useNativeDriver={false}
+        />
+        <Row>
+          <BigButton
+            title="+ Problem"
+            onPress={() => {
+              const newId = uuid.v4();
+              rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+              setProblems([...problems, {value: null, key: newId}]);
+            }}
+          />
+          <BigButton
+            title="Scan wound card"
+            disabled={nfcScanning}
+            onPress={() => {
+              setNFCScanning(true);
+              getWoundCardID().then(id => {
+                let diagTemp = getDiagnosisForWound(id);
+                setDiagnosis(diagTemp);
+                console.log(`Diagnosis: ${JSON.stringify(diagTemp)}`);
+                if (diagTemp !== null) {
+                  addProblems(diagTemp.cards);
+                }
+                setNFCScanning(false);
+              });
+            }}
+          />
+          <BigButton
+            title="+ Complication"
+            onPress={() => {
+              const newId = uuid.v4();
+              rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+              setComplications([
+                ...complications,
+                {value: 'random', key: newId},
+              ]);
+            }}
+          />
+        </Row>
+        <Text style={styles.textBack}>Previous surgeries: {surgeries}</Text>
+        <Slider
+          value={surgeries}
+          maximumValue={10}
+          step={1}
+          onValueChange={value => setSurgeries(+value)}
+        />
+        {surgeries >= 6 && (
+          <Text style={styles.doubled}>
+            All Medical Cards take 2x the printed time on you
+          </Text>
         )}
-        rightOpenValue={-Dimensions.get('window').width}
-        onSwipeValueChange={onSwipeValueChange(false)}
-        useNativeDriver={false}
-      />
-      <SwipeListView
-        disableRightSwipe
-        data={complications}
-        renderItem={renderItem(true)}
-        renderHiddenItem={() => (
-          <View style={styles.rowBack}>
-            <Text style={styles.textBack}>⬅️ Swipe to Delete</Text>
-          </View>
-        )}
-        rightOpenValue={-Dimensions.get('window').width}
-        onSwipeValueChange={onSwipeValueChange(true)}
-        useNativeDriver={false}
-      />
-      <Row>
         <BigButton
-          title="+ Problem"
-          onPress={() => {
-            const newId = uuid.v4();
-            rowTranslateAnimatedValues[newId] = new Animated.Value(1);
-            setProblems([...problems, {value: null, key: newId}]);
-          }}
+          title={`Start ${complicatedProblems.length} card problem`}
+          onPress={() => console.log(`${JSON.stringify(complicatedProblems)}`)}
+          disabled={problems.length < 1}
         />
-        <BigButton
-          title="Scan wound card"
-          disabled={nfcScanning}
-          onPress={() => {
-            setNFCScanning(true);
-            getWoundCardID().then(id => {
-              let diagTemp = getDiagnosisForWound(id);
-              setDiagnosis(diagTemp);
-              console.log(`Diagnosis: ${JSON.stringify(diagTemp)}`);
-              if (diagTemp !== null) {
-                addProblems(diagTemp.cards);
-              }
-              setNFCScanning(false);
-            });
-          }}
-        />
-        <BigButton
-          title="+ Complication"
-          onPress={() => {
-            const newId = uuid.v4();
-            rowTranslateAnimatedValues[newId] = new Animated.Value(1);
-            setComplications([...complications, {value: 'random', key: newId}]);
-          }}
-        />
-      </Row>
-      <Text style={styles.textBack}>Previous surgeries: {surgeries}</Text>
-      <Slider
-        value={surgeries}
-        maximumValue={10}
-        step={1}
-        onValueChange={value => setSurgeries(+value)}
-      />
-      <BigButton
-        title={`Start ${complicatedProblems.length} card problem`}
-        onPress={() => console.log(`${JSON.stringify(complicatedProblems)}`)}
-        disabled={problems.length < 1}
-      />
-    </View>
+        <DiagnosisDetails wound={diagnosis} />
+      </View>
+    </ScrollView>
   );
 }
 
@@ -241,9 +254,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
   },
-  // backTextWhite: {
-  //   color: '#aaa',
-  // },
+  doubled: {
+    fontWeight: 'bold',
+    color: 'black',
+    marginBottom: 7,
+    textAlign: 'center',
+  },
   rowBack: {
     alignItems: 'center',
     flex: 1,

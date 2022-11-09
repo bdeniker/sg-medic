@@ -9,6 +9,7 @@ export default function getDiagnosisForWound(id) {
     name: wounds[id].diagnosticTitle
       ? wounds[id].diagnosticTitle
       : wounds[id].name,
+    isRed: wounds[id].isRed,
     diagnosis: wounds[id].diagnosis,
     mechanics: wounds[id].mechanics,
     cards: wounds[id].cards,
