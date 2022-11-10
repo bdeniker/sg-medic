@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import NfcManager from 'react-native-nfc-manager';
 import RNPickerSelect from 'react-native-picker-select';
 import {SwipeListView} from 'react-native-swipe-list-view';
@@ -23,10 +24,11 @@ import addComplications from '../../util/addComplications';
 import getDiagnosisForWound from '../../util/diagnosisForWound';
 import getWoundCardID from '../../util/readNFC';
 import DiagnosisDetails from './diagnosisDetails';
+import Problem from '../problem';
 
 const rowTranslateAnimatedValues = {};
 
-function Diagnose() {
+function Diagnose({navigation}) {
   const [problemNames] = useState(problemJSON.map(p => ({label: p, value: p})));
   const [complicationNames] = useState([
     {label: 'Random complication', value: 'random'},
@@ -229,7 +231,14 @@ function Diagnose() {
         )}
         <BigButton
           title={`Start ${complicatedProblems.length} card problem`}
-          onPress={() => console.log(`${JSON.stringify(complicatedProblems)}`)}
+          onPress={() => {
+            console.log(`${JSON.stringify(complicatedProblems)}`);
+            navigation.push('Problem', {
+              problems: complicatedProblems,
+              failure: diagnosis ? diagnosis.failure : 'n/a',
+              doubled: surgeries >= 6,
+            });
+          }}
           disabled={problems.length < 1}
         />
         <DiagnosisDetails wound={diagnosis} />
@@ -237,6 +246,19 @@ function Diagnose() {
     </ScrollView>
   );
 }
+
+const DiagnoseStack = createNativeStackNavigator();
+
+function DiagnoseStackScreen() {
+  return (
+    <DiagnoseStack.Navigator screenOptions={{headerShown: false}}>
+      <DiagnoseStack.Screen name="Diagnosis" component={Diagnose} />
+      <DiagnoseStack.Screen name="Problem" component={Problem} />
+    </DiagnoseStack.Navigator>
+  );
+}
+
+export default DiagnoseStackScreen;
 
 const styles = StyleSheet.create({
   dropdown: {
@@ -262,10 +284,9 @@ const styles = StyleSheet.create({
   },
   rowBack: {
     alignItems: 'center',
-    flex: 1,
     flexDirection: 'row',
     justifyContent: 'flex-end',
-    paddingRight: 15,
+    padding: 12,
   },
   textBack: {
     color: 'grey',
@@ -317,21 +338,19 @@ const selectStyles = StyleSheet.create({
     paddingHorizontal: 10,
     borderWidth: 1,
     borderColor: 'gray',
-    backgroundColor: '#F2F2F2',
+    backgroundColor: '#E6E6E6',
     borderRadius: 4,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
   inputAndroid: {
     fontSize: 16,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-    borderWidth: 0.5,
-    borderColor: 'purple',
+    paddingVertical: 18,
+    borderWidth: 1,
+    borderColor: 'gray',
+    backgroundColor: '#E6E6E6',
     borderRadius: 8,
     color: 'black',
     paddingRight: 30, // to ensure the text is never behind the icon
   },
 });
-
-export default Diagnose;

@@ -33,8 +33,6 @@ const App = () => {
                 iconName = 'user-nurse';
               }
 
-              // You can return any component that you like here!
-              // return <Ionicons name={iconName} size={size} color={color} />;
               return <FontAwesome5 name={iconName} size={size} color={color} />;
             },
             tabBarActiveTintColor: 'tomato',
