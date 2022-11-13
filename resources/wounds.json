@@ -23,7 +23,7 @@
     "untilTreated": "If the object is removed without treatment, you start to bleed uncontrollably. Your bleed count is accelerated, halving your time before you bleed to the next level. Your bleed count can only be stopped by someone applying constant pressure to the wound.",
     "diagnosticTitle": null,
     "diagnosis": "The patient has a large piece of debris or other matter sticking out of them. Removing this will cause severe bleeding. When ready, remove the item, then pack the area with wadding or similar to stem the bleeding. Slowly move the wadding to find damaged vessels, and stitch closed. Administer antibiotics.",
-    "mechanics": "If not treated within the next 1 hour Infection sets in – Any attempt to heal this wound gains the Infected wound Complication in addition to any others drawn.",
+    "mechanics": "If not treated within the next 1 hour Infection sets in – Any attempt to heal this wound gains the Infected Wound Complication in addition to any others drawn.",
     "cards": ["Stab Wound", "Frozen limb", "Muscle Spasms"],
     "failure": "3 Body Damage"
   },
@@ -37,7 +37,7 @@
     "untilTreated": "In order to do more than hold your guts in and scream, you must spend a torture resistance. Moving more than 3 metres without using both hands to hold your guts in will cause 1 through.",
     "diagnosticTitle": "Penetrating trauma to the Abdominal Wall",
     "diagnosis": "The patients abdominal wall has been breached, and their intestines are spilling out. Pack the intestines back into place carefully, then suture the abdominal wall closed. Bandage tightly.",
-    "mechanics": "If not treated within the next 1 hour Infection sets in – Any attempt to heal this wound gains the Infected wound Complication in addition to any others drawn.",
+    "mechanics": "If not treated within the next 1 hour Infection sets in – Any attempt to heal this wound gains the Infected Wound Complication in addition to any others drawn.",
     "cards": ["Massive Trauma", "Internal Bleeding"],
     "failure": "3 Body Damage"
   },
@@ -281,7 +281,7 @@
     "untilTreated": "You cannot remember the 5 minutes prior to receiving the injury. You are nauseous, and standing gives you an intense sense of vertigo. For every Hour this goes untreated, pain increases and take 1 body damage.",
     "diagnosticTitle": "Intracranial bleeding",
     "diagnosis": "The patient has taken a severe blow to the head and is suffering from short term amnesia and severe vertigo as a result of bleeding into the brain. Surgery must be performed within 4 hours to stop the bleed or the patient will have a stroke.",
-    "mechanics": "Add the Traumatic Extradural Hemorrhage complication card to the problem.",
+    "mechanics": "Add the Traumatic Extradural Haemorrhage complication card to the problem.",
     "cards": ["Internal Bleeding", "Massive Trauma", "Open Fracture"],
     "failure": "Draw Extra Red Wound Card"
   },
@@ -421,7 +421,7 @@
     "untilTreated": "Other than hurting to sit down, you’re OK. A ring cushion may be beneficial.",
     "diagnosticTitle": "Trauma to the Gluteus Maximus",
     "diagnosis": "The patient has taken an injury to the meat of their buttocks. Whilst not immediately hazardous, it must be cleaned and stitched to avoid infection.",
-    "mechanics": "If not treated within the next 1 hour, infection sets in – any attempt to heal this wound gains the Infected wound Complication in addition to any others drawn.",
+    "mechanics": "If not treated within the next 1 hour, infection sets in – any attempt to heal this wound gains the Infected Wound Complication in addition to any others drawn.",
     "cards": ["Gunshot Wound"],
     "failure": "1 Body Damage"
   },
@@ -947,7 +947,7 @@
     "untilTreated": "No additional effect, other than being uncomfortable",
     "diagnosticTitle": "Foreign object",
     "diagnosis": "Explore wound to identify and remove foreign object. Once removed, suture and/or bandage as appropriate",
-    "mechanics": "If not treated within the next 2 hours infection sets in – Any attempt to heal this wound gains the Infected Complication in addition to any others drawn.",
+    "mechanics": "If not treated within the next 2 hours infection sets in – Any attempt to heal this wound gains the Infected Wound Complication in addition to any others drawn.",
     "cards": ["Stab Wound", "Septic Shock"],
     "failure": "n/a"
   },
@@ -986,7 +986,7 @@
     "category": "First Aid",
     "specialisation": null,
     "symptoms": "There’s an intense ringing in your ears and you have a massive headache. You feel disoriented and nauseous.",
-    "untilTreated": "You are deaf in one ear, and disoriented due to   the nausea. Your time to use card skills is doubled",
+    "untilTreated": "You are deaf in one ear, and disoriented due to the nausea. Your time to use card skills is doubled",
     "diagnosticTitle": "Ruptured tympanic membrane",
     "diagnosis": "The patient has a burst eardrum. Administer pain relief and anti-nausea medication every 8 hours for the remainder of the event. The eardrum will heal over time.",
     "mechanics": "If this wound remains untreated for more than 30 minutes, add the Nausea and Disorientation Complication card to the problem.",
@@ -1059,7 +1059,7 @@
     "untilTreated": "Your bleed count is accelerated, halving your time before you bleed to the next level.",
     "diagnosticTitle": "Major Lacerations",
     "diagnosis": "The bleeding needs to be stopped. Apply a tourniquet or pressure where possible to slow the bleeding, and then stitch or cauterise the wound closed, cleaning as best you can as you go. Infection is highly likely, so administer Antibiotics as a preventative.",
-    "mechanics": "If not treated within the next 2 hours Infection sets in – Any attempt to heal this wound gains the Infected wound Complication in addition to any others drawn.",
+    "mechanics": "If not treated within the next 2 hours Infection sets in – Any attempt to heal this wound gains the Infected Wound Complication in addition to any others drawn.",
     "cards": ["Stab Wound"],
     "failure": "1 Body Damage"
   },
@@ -1087,7 +1087,7 @@
     "untilTreated": "Until the end of the event, any hand to hand and melee damage taken is at +1",
     "diagnosticTitle": null,
     "diagnosis": "A distinct portion of the patient’s body has 2nd and 3rd degree burns. Numb the area and carefully remove all of the charred tissue, then wrap the wounds. Dressings will need to be replaced every 2-4 hours.",
-    "mechanics": "If not treated within the next 2 hours Infection sets in – Any attempt to heal this wound gains the Infected wound Complication in addition to any others drawn.",
+    "mechanics": "If not treated within the next 2 hours Infection sets in – Any attempt to heal this wound gains the Infected Wound Complication in addition to any others drawn.",
     "cards": ["Septic Shock", "Nerve Pain"],
     "failure": "1 Body Damage"
   },
