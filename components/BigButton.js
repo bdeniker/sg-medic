@@ -1,33 +1,29 @@
 import React from 'react';
 import {StyleSheet, Pressable, Text} from 'react-native';
 
-const BigButton = ({onPress, title, disabled}) => (
-  <Pressable
-    onPress={onPress}
-    style={
-      disabled ? styles.disabledAppButtonContainer : styles.appButtonContainer
-    }
-    disabled={disabled}>
-    <Text style={styles.appButtonText}>{title}</Text>
-  </Pressable>
-);
+const BigButton = ({onPress, title, disabled}) => {
+  let buttonStyle = {...styles.appButtonContainer};
+  if (disabled) {
+    buttonStyle = {...buttonStyle, ...styles.disabledAppButtonContainer};
+  }
+  return (
+    <Pressable onPress={onPress} style={buttonStyle} disabled={disabled}>
+      <Text style={styles.appButtonText}>{title}</Text>
+    </Pressable>
+  );
+};
 
 const styles = StyleSheet.create({
   appButtonContainer: {
     elevation: 8,
-    backgroundColor: '#009688',
+    backgroundColor: '#2A3570',
     borderRadius: 10,
     paddingVertical: 30,
     paddingHorizontal: 12,
     margin: 5,
   },
   disabledAppButtonContainer: {
-    elevation: 8,
     backgroundColor: '#ddd',
-    borderRadius: 10,
-    paddingVertical: 30,
-    paddingHorizontal: 12,
-    margin: 5,
   },
   appButtonText: {
     fontSize: 18,
