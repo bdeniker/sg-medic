@@ -8,6 +8,7 @@ function Row(props) {
 const styles = StyleSheet.create({
   row: {
     flexDirection: 'row',
+    justifyContent: 'space-around',
   },
 });
 

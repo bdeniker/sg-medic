@@ -106,8 +106,6 @@ const styles = StyleSheet.create({
   bottomView: {
     width: '100%',
     height: '20%',
-    justifyContent: 'center',
-    alignItems: 'center',
     position: 'absolute',
     bottom: 0,
   },

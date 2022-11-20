@@ -17,6 +17,7 @@ import {SwipeListView} from 'react-native-swipe-list-view';
 import uuid from 'react-native-uuid';
 
 import BigButton from '../../components/BigButton';
+import MediumButton from '../../components/MediumButton';
 import Row from '../../components/Row';
 import complicationJSON from '../../resources/complications.json';
 import problemJSON from '../../resources/problems.json';
@@ -181,14 +182,27 @@ function Diagnose({navigation}) {
           useNativeDriver={false}
         />
         <Row>
-          <BigButton
-            title="+ Problem"
-            onPress={() => {
-              const newId = uuid.v4();
-              rowTranslateAnimatedValues[newId] = new Animated.Value(1);
-              setProblems([...problems, {value: null, key: newId}]);
-            }}
-          />
+          <View style={styles.stackedButtons}>
+            <MediumButton
+              title="+ Problem"
+              onPress={() => {
+                const newId = uuid.v4();
+                rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+                setProblems([...problems, {value: null, key: newId}]);
+              }}
+            />
+            <MediumButton
+              title="+ Complication"
+              onPress={() => {
+                const newId = uuid.v4();
+                rowTranslateAnimatedValues[newId] = new Animated.Value(1);
+                setComplications([
+                  ...complications,
+                  {value: 'random', key: newId},
+                ]);
+              }}
+            />
+          </View>
           <BigButton
             title="Scan wound card"
             disabled={nfcScanning}
@@ -203,17 +217,6 @@ function Diagnose({navigation}) {
                 }
                 setNFCScanning(false);
               });
-            }}
-          />
-          <BigButton
-            title="+ Complication"
-            onPress={() => {
-              const newId = uuid.v4();
-              rowTranslateAnimatedValues[newId] = new Animated.Value(1);
-              setComplications([
-                ...complications,
-                {value: 'random', key: newId},
-              ]);
             }}
           />
         </Row>
@@ -329,6 +332,9 @@ const styles = StyleSheet.create({
     marginBottom: 15,
     textAlign: 'center',
     color: 'black',
+  },
+  stackedButtons: {
+    flexDirection: 'column',
   },
 });
 const selectStyles = StyleSheet.create({

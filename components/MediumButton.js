@@ -1,7 +1,7 @@
 import React from 'react';
 import {StyleSheet, Pressable, Text} from 'react-native';
 
-const BigButton = ({onPress, title, disabled}) => {
+const MediumButton = ({onPress, title, disabled}) => {
   let buttonStyle = {...styles.appButtonContainer};
   if (disabled) {
     buttonStyle = {...buttonStyle, ...styles.disabledAppButtonContainer};
@@ -16,23 +16,21 @@ const BigButton = ({onPress, title, disabled}) => {
 const styles = StyleSheet.create({
   appButtonContainer: {
     elevation: 8,
-    backgroundColor: '#2A3570',
+    backgroundColor: '#9A9A9A',
     borderRadius: 10,
-    paddingVertical: 30,
-    paddingHorizontal: 12,
+    padding: 12,
     margin: 5,
-    justifyContent: 'center',
   },
   disabledAppButtonContainer: {
     backgroundColor: '#ddd',
   },
   appButtonText: {
-    fontSize: 18,
+    fontSize: 16,
     color: '#fff',
-    fontWeight: 'bold',
+    // fontWeight: 'bold',
     alignSelf: 'center',
     textTransform: 'uppercase',
   },
 });
 
-export default BigButton;
+export default MediumButton;
