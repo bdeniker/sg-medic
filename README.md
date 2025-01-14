@@ -16,3 +16,4 @@ export PATH=$PATH:$ANDROID_HOME/cmdline-tools/10.0/bin
 
 ## ToDo
 - Upgrade to latest Node
+- upgrade [@react-navigation/bottom-tabs](https://reactnavigation.org/docs/bottom-tab-navigator/) (and/or otherwise fix Injury tab cropping)
