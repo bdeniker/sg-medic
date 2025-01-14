@@ -27,9 +27,7 @@ const styles = StyleSheet.create({
   appButtonText: {
     fontSize: 16,
     color: '#fff',
-    // fontWeight: 'bold',
     alignSelf: 'center',
-    textTransform: 'uppercase',
   },
 });
 
