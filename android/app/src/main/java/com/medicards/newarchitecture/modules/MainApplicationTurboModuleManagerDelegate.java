@@ -1,4 +1,4 @@
-package com.medicards.newarchitecture.modules;
+package com.sgmed.newarchitecture.modules;
 
 import com.facebook.jni.HybridData;
 import com.facebook.react.ReactPackage;
