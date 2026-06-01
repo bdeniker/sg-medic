@@ -1,18 +1,20 @@
 # sg-med
 
-## Run on connected phone
+## Useful commands
+
+### Run on connected phone
 
 ```sh
 npm run android -- --device
 ```
 
-## Build APK
+### Build APK
 
 ```sh
 eas build -p android --profile preview
 ```
 
-## Useful adb commands
+### Useful adb commands
 
 ```sh
 adb devices # lists all connected devices
