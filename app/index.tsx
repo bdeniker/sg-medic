@@ -1,5 +1,6 @@
 import type { Wound } from '@/assets/wounds'
 import BigButton from '@/components/big-button'
+import MidButton from '@/components/mid-button'
 import getWound from '@/util/getWound'
 import getWoundCardId from '@/util/nfc'
 import CardProblemView from '@/views/card-problem-view'
@@ -9,7 +10,6 @@ import { Stack } from 'expo-router'
 import { useState } from 'react'
 import {
     ActivityIndicator,
-    Button,
     Modal,
     ScrollView,
     StatusBar,
@@ -19,6 +19,7 @@ import {
 } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import NfcManager from 'react-native-nfc-manager'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 
 export default function Index() {
     const [wound, setWound] = useState<Wound | null>(null)
@@ -60,15 +61,26 @@ export default function Index() {
                 {wound ? (
                     <>
                         <InjuryView wound={wound} />
-                        <Button
+                        <MidButton
+                            title={`${showDiagnosis ? 'Hide' : 'Show'} Diagnosis`}
                             onPress={() => {
                                 setShowDiagnosis(currentState => !currentState)
-                            }}
-                            title="Diagnosis"
-                            accessibilityLabel="Toggle showing wound diagnosis"
-                            color={'#2A3570'}
-                        />
-                        <Collapsible collapsed={showDiagnosis}>
+                            }}>
+                            {showDiagnosis ? (
+                                <MaterialIcons
+                                    name="unfold-less"
+                                    size={24}
+                                    color="white"
+                                />
+                            ) : (
+                                <MaterialIcons
+                                    name="unfold-more"
+                                    size={24}
+                                    color="white"
+                                />
+                            )}
+                        </MidButton>
+                        <Collapsible collapsed={!showDiagnosis}>
                             <DiagnosisView wound={wound} />
                         </Collapsible>
                     </>
@@ -89,6 +101,7 @@ const styles = StyleSheet.create({
         paddingTop: StatusBar.currentHeight
     },
     scroll: {
+        alignItems: 'center',
         minWidth: '90%'
     },
     centeredView: {
