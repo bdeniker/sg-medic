@@ -13,6 +13,7 @@
         },
         "android": {
             "package": "com.sgmed",
+            "versionCode": 2,
             "adaptiveIcon": {
                 "backgroundColor": "#E6F4FE",
                 "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -33,9 +34,9 @@
                     "image": "./assets/images/splash-icon.png",
                     "imageWidth": 200,
                     "resizeMode": "contain",
-                    "backgroundColor": "#ffffff",
+                    "backgroundColor": "#EBEBEB",
                     "dark": {
-                        "backgroundColor": "#000000"
+                        "backgroundColor": "#181C28"
                     }
                 }
             ]
