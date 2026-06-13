@@ -9,7 +9,7 @@
         "lint": "expo lint",
         "build-apk": "eas build -p android -e apk",
         "build-apk-local": "eas build -p android -e apk --local",
-        "prebuild": "npx expo prebuild",
+        "prebuild": "npx expo prebuild --clean",
         "build-aab": "cd android/ && ./gradlew app:bundleRelease",
         "ios": "expo run:ios"
     },
