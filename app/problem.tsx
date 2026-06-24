@@ -20,6 +20,10 @@ export default function ProblemView() {
         )
     )
 
+    const lastCardRevealed = () =>
+        revealableCards[revealableCards.length - 1] !== undefined &&
+        revealableCards[revealableCards.length - 1].revealed
+
     return (
         <View style={styles.topLevel}>
             <Stack.Screen
@@ -34,7 +38,12 @@ export default function ProblemView() {
                 style={styles.cards}
             />
             <BigButton
-                title="Reveal next card"
+                title={
+                    lastCardRevealed()
+                        ? 'Problem Completed'
+                        : 'Reveal next card'
+                }
+                disabled={lastCardRevealed()}
                 onPress={() => {
                     setRevealableCards(
                         (prevState: RevealableCardInterface[]) => {
@@ -62,7 +71,8 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingTop: StatusBar.currentHeight
+        paddingTop: StatusBar.currentHeight,
+        paddingBottom: 30
     },
     cards: {
         width: '100%'
