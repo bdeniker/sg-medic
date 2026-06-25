@@ -158,20 +158,19 @@ export default function CardProblemView({ wound }: { wound: Wound | null }) {
                     </TouchableOpacity>
                 )}
             />
+            <Text style={styles.pastSurgeries}>Past surgeries:</Text>
             <Slider
                 style={styles.slider}
                 value={surgeries}
                 minimumValue={0}
                 maximumValue={7}
                 step={1}
+                renderStepNumber={true}
                 thumbSize={10}
                 onValueChange={value => {
                     setSurgeries(value)
                 }}
             />
-            <Text style={styles.pastSurgeries}>
-                Past surgeries: {surgeries}
-            </Text>
             {surgeries && surgeries >= 7 ? (
                 <Text style={styles.warning}>
                     ⚠️WARNING⚠️ Any Failed Surgery Attempt will result in you
@@ -197,9 +196,11 @@ export default function CardProblemView({ wound }: { wound: Wound | null }) {
 const styles = StyleSheet.create({
     problem: {
         width: '100%',
+        alignItems: 'center',
         padding: 10
     },
     select: {
+        width: '90%',
         height: 50,
         backgroundColor: 'silver',
         borderRadius: 12,
@@ -246,10 +247,13 @@ const styles = StyleSheet.create({
         elevation: 2
     },
     slider: {
-        marginTop: 10
+        marginTop: 10,
+        marginBottom: 20,
+        width: '90%'
     },
     pastSurgeries: {
         marginHorizontal: 20,
+        width: '90%',
         fontSize: 20
     },
     warning: {
