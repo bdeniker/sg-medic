@@ -71,3 +71,17 @@ I _almost_ have [CNG](https://docs.expo.dev/workflow/continuous-native-generatio
 ```
 
 despite loooads of free space in both the partition the project is in as well as `/tmp`. But calling gradle directly as above has no issues at all, as long as it's configured. Idk, answer is probably to get a CNG plugin to set up code signing, such that it gets generated equivalent to current using `prebuild` and then skipping EAS and just using prebuild & gradle 🤷
+
+## Glossary
+
+### complication
+
+Complications function similarly to [problems](#problem), but they are not always present in [wounds](#wound) and are more difficult to resolve. Only Doctors are able to treat complications and each of their skill cards can only solve a single complication. They are not part of any [wound](#wound) by default, but some might add a complication depending on character behaviour after sustaining the wound. Additionally, if the wound requires surgery to treat and the character has already had surgery during that event, the card game might have one or more complications added depending on the number of previous surgeries and chance.
+
+### problem
+
+Medical skills provide access to a hand of cards, each of which solves one or more problems (and one [complication](#complication)). [Wounds](#wound) are comprised of multiple problems. (They may or may not have [complications](#complication).)
+
+### wound
+
+A wound is a collection of multiple [problems](#problem) and 0 or more [complications](#complication). It represents an injury a character has taken and forms the challenge for the medical card game players use their cards on.
