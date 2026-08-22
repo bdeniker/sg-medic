@@ -6,20 +6,20 @@ import getWoundCardId from '@/util/nfc'
 import CardProblemView from '@/views/card-problem-view'
 import DiagnosisView from '@/views/diagnosis-view'
 import InjuryView from '@/views/injury-view'
+import MaterialIcons from '@expo/vector-icons/MaterialIcons'
 import { Stack } from 'expo-router'
 import { useState } from 'react'
 import {
     ActivityIndicator,
     Modal,
     ScrollView,
-    StatusBar,
     StyleSheet,
     Text,
     View
 } from 'react-native'
 import Collapsible from 'react-native-collapsible'
 import NfcManager from 'react-native-nfc-manager'
-import MaterialIcons from '@expo/vector-icons/MaterialIcons'
+import { SafeAreaView } from 'react-native-safe-area-context'
 
 export default function Index() {
     const [wound, setWound] = useState<Wound | null>(null)
@@ -27,67 +27,71 @@ export default function Index() {
     const [showDiagnosis, setShowDiagnosis] = useState(false)
 
     return (
-        <View style={styles.topLevel}>
-            <Stack.Screen options={{ headerShown: false }} />
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={nfcScanning}
-                onRequestClose={() => {
-                    NfcManager.cancelTechnologyRequest()
-                    setNFCScanning(false)
-                }}>
-                <View style={styles.centeredView}>
-                    <View style={styles.modalView}>
-                        <ActivityIndicator />
-                        <Text>Scan an NFC tag</Text>
+        <SafeAreaView style={styles.topLevel}>
+            <View>
+                <Stack.Screen options={{ headerShown: false }} />
+                <Modal
+                    animationType="slide"
+                    transparent={true}
+                    visible={nfcScanning}
+                    onRequestClose={() => {
+                        NfcManager.cancelTechnologyRequest()
+                        setNFCScanning(false)
+                    }}>
+                    <View style={styles.centeredView}>
+                        <View style={styles.modalView}>
+                            <ActivityIndicator />
+                            <Text>Scan an NFC tag</Text>
+                        </View>
                     </View>
-                </View>
-            </Modal>
-            <ScrollView contentContainerStyle={styles.scroll}>
-                <BigButton
-                    title="Scan wound card"
-                    onPress={() => {
-                        setNFCScanning(true)
-                        getWoundCardId().then(id => {
-                            if (id != 0) {
-                                setWound(getWound(id))
-                            }
-                            setNFCScanning(false)
-                        })
-                    }}
-                />
+                </Modal>
+                <ScrollView contentContainerStyle={styles.scroll}>
+                    <BigButton
+                        title="Scan wound card"
+                        onPress={() => {
+                            setNFCScanning(true)
+                            getWoundCardId().then(id => {
+                                if (id != 0) {
+                                    setWound(getWound(id))
+                                }
+                                setNFCScanning(false)
+                            })
+                        }}
+                    />
 
-                {wound ? (
-                    <>
-                        <InjuryView wound={wound} />
-                        <MidButton
-                            title={`${showDiagnosis ? 'Hide' : 'Show'} Diagnosis`}
-                            onPress={() => {
-                                setShowDiagnosis(currentState => !currentState)
-                            }}>
-                            {showDiagnosis ? (
-                                <MaterialIcons
-                                    name="unfold-less"
-                                    size={24}
-                                    color="white"
-                                />
-                            ) : (
-                                <MaterialIcons
-                                    name="unfold-more"
-                                    size={24}
-                                    color="white"
-                                />
-                            )}
-                        </MidButton>
-                        <Collapsible collapsed={!showDiagnosis}>
-                            <DiagnosisView wound={wound} />
-                        </Collapsible>
-                    </>
-                ) : null}
-                <CardProblemView wound={wound} />
-            </ScrollView>
-        </View>
+                    {wound ? (
+                        <>
+                            <InjuryView wound={wound} />
+                            <MidButton
+                                title={`${showDiagnosis ? 'Hide' : 'Show'} Diagnosis`}
+                                onPress={() => {
+                                    setShowDiagnosis(
+                                        currentState => !currentState
+                                    )
+                                }}>
+                                {showDiagnosis ? (
+                                    <MaterialIcons
+                                        name="unfold-less"
+                                        size={24}
+                                        color="white"
+                                    />
+                                ) : (
+                                    <MaterialIcons
+                                        name="unfold-more"
+                                        size={24}
+                                        color="white"
+                                    />
+                                )}
+                            </MidButton>
+                            <Collapsible collapsed={!showDiagnosis}>
+                                <DiagnosisView wound={wound} />
+                            </Collapsible>
+                        </>
+                    ) : null}
+                    <CardProblemView wound={wound} />
+                </ScrollView>
+            </View>
+        </SafeAreaView>
     )
 }
 
@@ -97,8 +101,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
-        paddingTop: StatusBar.currentHeight
+        alignItems: 'center'
     },
     scroll: {
         alignItems: 'center',

@@ -29,8 +29,7 @@ const styles = StyleSheet.create({
         elevation: 8,
         backgroundColor: '#2A3570',
         borderRadius: 10,
-        paddingVertical: 30,
-        width: '90%',
+        padding: 30,
         margin: 5,
         justifyContent: 'center'
     },

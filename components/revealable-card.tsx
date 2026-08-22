@@ -22,7 +22,7 @@ export default function RevealableCard({
     }
     return (
         <View style={viewStyles}>
-            <Text style={styles.cardText}>
+            <Text style={styles.cardText} selectable>
                 {card.revealed ? card.title : '???'}
             </Text>
         </View>
@@ -30,15 +30,12 @@ export default function RevealableCard({
 }
 
 const styles = StyleSheet.create({
-    viewStyles: {
-        width: '100%'
-    },
     card: {
         borderRadius: 14,
-        width: '90%',
         alignItems: 'center',
         paddingVertical: 10,
-        marginVertical: 3
+        paddingHorizontal: 2,
+        marginVertical: 2
     },
     hiddenCard: {
         borderWidth: 1,
@@ -53,7 +50,7 @@ const styles = StyleSheet.create({
     },
     cardText: {
         fontSize: 20,
-        minWidth: '50%',
+        minWidth: '95%',
         textAlign: 'center'
     }
 })

@@ -34,7 +34,7 @@ cd android/
 ./gradlew app:bundleRelease
 ```
 
-I _almost_ have [CNG](https://docs.expo.dev/workflow/continuous-native-generation/) sorted - including an `aab` config in `eas.json` - but I haven't figured out how to configure local signing credentials for a local build working with it. If I delete the `android/` folder and have the keystore and `credetnials.json` specified, I currently get:
+I _almost_ have [CNG](https://docs.expo.dev/workflow/continuous-native-generation/) sorted - including an `aab` config in `eas.json` - but I haven't figured out how to configure local signing credentials for a local build working with it. If I delete the `android/` folder and have the keystore and `credentials.json` specified, I currently get:
 
 ```
 [RUN_GRADLEW] FAILURE: Build completed with 3 failures.
