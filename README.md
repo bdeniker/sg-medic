@@ -18,7 +18,22 @@ adb kill-server
 
 ### Release
 
+#### Version
+
+SG Med uses semantic versioning. The version (as a string) is referenced in:
+
+- `package.json`
+- `android/app/build.gradle`
+- `app.json`
+
+Additionally, Android has the concept of a `versionCode`, an integer that should always be higher for newer versions, referenced in:
+
+- `app.json`
+- `android/app/build.gradle`
+
 #### APK
+
+Delete/move the `android/` folder, then:
 
 ```sh
 npm run build-apk # OR
