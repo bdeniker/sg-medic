@@ -21,6 +21,7 @@ yarn-error.*
 
 # editor config
 .vscode/
+.idea/
 
 # generated native folders
 /ios
